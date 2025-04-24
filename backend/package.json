@@ -3,16 +3,28 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "generate": "bun drizzle-kit generate --config=./src/config/drizzle.config.ts",
+    "migrate": "bun drizzle-kit migrate --config=./src/config/drizzle.config.ts",
+    "better-auth:generate": "bunx --bun @better-auth/cli generate --output ./src/db/schema/auth.ts --config ./src/services/auth/providers/betterAuth.ts",
+    "better-auth:migrate": "bunx --bun @better-auth/cli migrate --config ./src/services/auth/providers/betterAuth.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.2.0",
     "@elysiajs/swagger": "^1.2.2",
+    "better-auth": "^1.2.7",
+    "drizzle-orm": "^0.42.0",
     "elysia": "latest",
-    "mongoose": "^8.13.2"
+    "kysely": "^0.28.1",
+    "kysely-bun-worker": "^1.2.0",
+    "nodemailer": "^6.10.1",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "^8.11.13",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.31.0"
   },
   "module": "src/index.js"
 }
