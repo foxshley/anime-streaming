@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { authService } from "./services/auth";
+import { AuthService } from "./services/auth";
 
-const app = new Elysia().use(authService)
+const app = new Elysia().use(AuthService)
   .get("/", () => "Hello Elysia").listen(3000);
 
 console.log(

@@ -11,4 +11,19 @@ const authHandler = new Elysia().all("/api/auth/*", (context: Context) => {
   context.error(405);
 })
 
-export const authService = new Elysia().use(authHandler);
+export const AuthService = new Elysia({ name: "Service.Auth" })
+  .use(authHandler)
+  .macro({
+    auth: {
+      async resolve({ error, request: { headers }}) {
+        const session = await auth.api.getSession({ headers });
+  
+        if(!session) return error(401);
+  
+        return {
+          user: session.user,
+          session: session.session
+        }
+      }
+    }
+  });
