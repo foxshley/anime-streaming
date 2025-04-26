@@ -1,0 +1,1 @@
+ALTER TABLE "anime"."anime" ALTER COLUMN "average_rating" SET DEFAULT '0.00';

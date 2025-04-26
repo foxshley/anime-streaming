@@ -14,7 +14,7 @@ export const anime = contentSchema.table("anime", {
   release_year: smallint('release_year'),
   status: varchar('status', { length: 20}).default('ongoing').notNull(),
   totalEpisodes: integer('total_episodes').default(0).notNull(),
-  averageRating: decimal('average_rating', { precision: 3, scale: 2 }).default(0).notNull(),
+  averageRating: decimal('average_rating', { precision: 3, scale: 2 }).default('0.00').notNull(),
   ageRating: varchar('age_rating', { length: 10 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull()
