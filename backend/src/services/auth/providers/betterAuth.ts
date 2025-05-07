@@ -1,4 +1,4 @@
-import Elysia from "elysia";
+import Elysia, { Context } from "elysia";
 
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -15,8 +15,18 @@ export const auth = betterAuth({
   },
 })
 
+const authHandler = (context: Context) => {
+  const BETTER_AUTH_ACCEPT_METHODS = ["POST", "GET", "OPTIONS"]
+  // validate request method
+  if(BETTER_AUTH_ACCEPT_METHODS.includes(context.request.method)) {
+      return auth.handler(context.request);
+  } else {
+      context.error(405)
+  }
+}
+
 export const BetterAuthProvider = new Elysia({ name: "AuthProvider.BetterAuth" })
-  .mount(auth.handler)
+  .all("/api/auth/*", authHandler)
   .macro({
     auth: {
       async resolve({ error, request: { headers }}) {
