@@ -21,7 +21,7 @@ const authHandler = (context: Context) => {
   if(BETTER_AUTH_ACCEPT_METHODS.includes(context.request.method)) {
       return auth.handler(context.request);
   } else {
-      context.error(405)
+      context.status(405)
   }
 }
 
@@ -29,10 +29,10 @@ export const BetterAuthProvider = new Elysia({ name: "AuthProvider.BetterAuth" }
   .all("/api/auth/*", authHandler)
   .macro({
     auth: {
-      async resolve({ error, request: { headers }}) {
+      async resolve({ status, request: { headers }}) {
         const session = await auth.api.getSession({ headers });
   
-        if(!session) return error(401);
+        if(!session) return status(401);
   
         return {
           user: session.user,
