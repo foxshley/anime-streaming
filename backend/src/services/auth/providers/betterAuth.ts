@@ -11,8 +11,16 @@ export const auth = betterAuth({
     schema: { user, session, account, verification }
   }),
   emailAndPassword: {
-    enabled: true
+    enabled: true,
+    requireEmailVerification: true,
   },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ token, user, url }) => {
+      // Implement your email sending logic here
+      console.log(`Send verification email to ${user.email} with token: ${token} and URL: ${url}`);
+    }
+  }
 })
 
 const authHandler = (context: Context) => {
