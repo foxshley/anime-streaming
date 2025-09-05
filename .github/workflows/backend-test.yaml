@@ -24,7 +24,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -U testuser"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -44,7 +44,7 @@ jobs:
       - name: Run migrations
         env:
           NODE_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/anime_streaming_test
+          DATABASE_URL: postgres://testuser:testpassword@localhost:5432/anime_streaming_test
         run: bun drizzle-kit migrate --config=./src/config/drizzle.config.ts
 
       - name: Run all tests
