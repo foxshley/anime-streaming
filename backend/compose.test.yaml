@@ -3,6 +3,7 @@ name: anime-streaming-backend-test
 services:
   db:
     image: postgres:15-alpine
+    container_name: anime-streaming-backend-test-db
     environment:
       POSTGRES_USER: testuser
       POSTGRES_PASSWORD: testpassword

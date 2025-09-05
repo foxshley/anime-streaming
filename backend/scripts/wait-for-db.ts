@@ -8,7 +8,7 @@ function waitForDb(retries = 15, delayMs = 1000): Promise<void> {
       attempt++;
       const proc = spawn("podman", [
         "exec",
-        "anime-streaming-backend-test_db_1",
+        "anime-streaming-backend-test-db",
         "pg_isready",
         "-h",
         "localhost",
