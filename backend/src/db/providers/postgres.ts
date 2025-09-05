@@ -1,5 +1,9 @@
 import { SQL } from "bun";
 import { drizzle } from "drizzle-orm/bun-sql";
 
-const client = new SQL(process.env.DB_PATH || "postgres://postgres@localhost:5432/anime_streaming");
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL must be set");
+}
+
+const client = new SQL(process.env.DATABASE_URL);
 export const db = drizzle(client);
