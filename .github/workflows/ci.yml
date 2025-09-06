@@ -1,4 +1,4 @@
-name: Backend Tests
+name: Build and Test Backend
 
 on:
   push:
@@ -7,8 +7,9 @@ on:
     branches: [main, dev]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
+    environment: testing
 
     defaults:
       run:
@@ -18,16 +19,11 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpassword
-          POSTGRES_DB: anime_streaming_test
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U testuser"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
       - name: Checkout repo
@@ -36,16 +32,15 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
-          bun-version: latest
+          bun-version: "1.2.x"
 
       - name: Install deps
         run: bun install
 
       - name: Run migrations
         env:
-          NODE_ENV: test
-          DATABASE_URL: postgres://testuser:testpassword@localhost:5432/anime_streaming_test
-        run: bun drizzle-kit migrate --config=./src/config/drizzle.config.ts
+          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/${{ secrets.POSTGRES_DB }}
+        run: bun run migrate
 
       - name: Run all tests
         env:
