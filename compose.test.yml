@@ -10,6 +10,8 @@ services:
       POSTGRES_DB: anime_streaming_test
     ports:
       - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U testuser -d anime_streaming_test -h localhost"]
       interval: 10s
@@ -24,8 +26,6 @@ services:
 
 networks:
   default:
-    name: anime-streaming-backend-test-network
 
 volumes:
   db-data:
-    name: anime-streaming-backend-test-db-data
