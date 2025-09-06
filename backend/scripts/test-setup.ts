@@ -10,13 +10,13 @@ async function main() {
   }
 
   console.log("🐘 Starting Postgres test container...");
-  await $`podman compose -f compose.test.yaml up -d`;
+  await $`podman compose -f ../compose.test.yml up -d`;
 
   console.log("⏳ Waiting for the database to be ready...");
   await $`bun run scripts/wait-for-db.ts`;
 
   console.log("📦 Running migrations...");
-  await $`bun drizzle-kit migrate --config=./src/config/drizzle.config.ts`;
+  await $`bun run migrate`;
 
   console.log("\n✅ Test environment ready!");
 }

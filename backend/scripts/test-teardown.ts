@@ -10,7 +10,7 @@ async function main() {
   }
 
   console.log("🐘 Stopping Postgres test container...");
-  await $`podman compose -f compose.test.yaml down -v`;
+  await $`podman compose -f ../compose.test.yml down -v`;
 
   console.log("✅ Test environment cleaned up!");
 }
