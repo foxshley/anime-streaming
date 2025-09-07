@@ -10,6 +10,8 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     environment: testing
+    env:
+      DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
 
     defaults:
       run:
@@ -38,11 +40,7 @@ jobs:
         run: bun install
 
       - name: Run migrations
-        env:
-          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
-        run: |
-          echo "Database URL: $DATABASE_URL"
-          bun run migrate
+        run: bun run migrate
 
       - name: Run all tests
         run: bun run test
