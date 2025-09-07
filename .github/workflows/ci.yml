@@ -39,7 +39,7 @@ jobs:
 
       - name: Run migrations
         env:
-          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+          DATABASE_URL: postgres://testanime:testanimepass@localhost:5432/anime_streaming_test
         run: bun run migrate
 
       - name: Run all tests
