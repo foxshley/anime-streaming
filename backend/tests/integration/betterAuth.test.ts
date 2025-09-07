@@ -16,6 +16,8 @@ async function invoke(method: string, path: string, body?: any) {
 
 describe("BetterAuth Integration Tests", () => {
   beforeAll(async () => {
+    console.log("Database URL:", process.env.DATABASE_URL);
+    
     await db.execute(`TRUNCATE TABLE "auth"."account", "auth"."session", "auth"."user", "auth"."verification" CASCADE`);
   });
 
