@@ -4,7 +4,7 @@ import { Elysia } from "elysia";
 import { AuthService } from "./services/auth";
 import { logger } from "./utils/logger";
 
-const app = new Elysia()
+const _app = new Elysia()
 	.use(logger)
 	.use(swagger())
 	.onError(({ code, error, set }) => {

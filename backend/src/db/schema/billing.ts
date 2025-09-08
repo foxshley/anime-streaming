@@ -1,6 +1,5 @@
 import {
 	boolean,
-	integer,
 	pgSchema,
 	serial,
 	text,

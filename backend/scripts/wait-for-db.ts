@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn } from "node:child_process";
 
 function waitForDb(retries = 15, delayMs = 1000): Promise<void> {
 	return new Promise((resolve, reject) => {
