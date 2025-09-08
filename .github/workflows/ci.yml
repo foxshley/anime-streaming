@@ -42,5 +42,8 @@ jobs:
       - name: Run migrations
         run: bun run migrate
 
+      - name: Run linting and formatting checks
+        run: bun run check
+
       - name: Run all tests
         run: bun run test
