@@ -1,0 +1,39 @@
+# Node + Bun dependencies
+
+node_modules
+
+# Build outputs
+
+dist
+server
+logs
+\*.log
+
+# Local env & configs
+
+.env
+.env.\*
+!.env.example
+
+# Git files
+
+.git
+.gitignore
+
+# Editor/IDE files
+
+.vscode
+.idea
+_.swp
+_.swo
+
+# OS junk
+
+.DS_Store
+Thumbs.db
+
+# Tests & coverage
+
+tests
+coverage
+\*.test.ts
