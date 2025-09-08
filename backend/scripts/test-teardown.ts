@@ -3,19 +3,19 @@
 import { $ } from "bun";
 
 async function main() {
-  if (process.env.CI) {
-    console.log("✅ CI detected – skipping Podman teardown");
+	if (process.env.CI) {
+		console.log("✅ CI detected – skipping Podman teardown");
 
-    return;
-  }
+		return;
+	}
 
-  console.log("🐘 Stopping Postgres test container...");
-  await $`podman compose -f ../compose.test.yml down -v`;
+	console.log("🐘 Stopping Postgres test container...");
+	await $`podman compose -f ../compose.test.yml down -v`;
 
-  console.log("✅ Test environment cleaned up!");
+	console.log("✅ Test environment cleaned up!");
 }
 
 main().catch((err) => {
-  console.error("❌ Error tearing down test environment:", err);
-  process.exit(1);
+	console.error("❌ Error tearing down test environment:", err);
+	process.exit(1);
 });

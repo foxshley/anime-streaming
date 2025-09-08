@@ -1,27 +1,27 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1745495464806,
-      "tag": "0000_purple_carnage",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1745691921845,
-      "tag": "0001_curvy_the_call",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1745698428496,
-      "tag": "0002_crazy_george_stacy",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1745495464806,
+			"tag": "0000_purple_carnage",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1745691921845,
+			"tag": "0001_curvy_the_call",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1745698428496,
+			"tag": "0002_crazy_george_stacy",
+			"breakpoints": true
+		}
+	]
 }
