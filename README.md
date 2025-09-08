@@ -81,8 +81,7 @@ bun dev
 Lint & format:
 
 ```sh
-bun lint
-bun format
+bun check
 ```
 
 ---
