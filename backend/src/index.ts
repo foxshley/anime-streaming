@@ -1,12 +1,13 @@
-import { swagger } from "@elysiajs/swagger";
+import { openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 
 import { AuthService } from "./services/auth";
 import { logger } from "./utils/logger";
+import { AnimeService } from "./services/anime";
 
 const _app = new Elysia()
 	.use(logger)
-	.use(swagger())
+	.use(openapi())
 	.onError(({ code, error, set }) => {
 		switch (code) {
 			case "NOT_FOUND":
@@ -34,11 +35,6 @@ const _app = new Elysia()
 		}
 	})
 	.use(AuthService)
+	.use(AnimeService)
 	.get("/", () => "Hello Elysia")
-	.get("/test", () => {
-		return {
-			status: "success",
-			message: "Hello Elysia",
-		};
-	})
 	.listen(process.env.PORT ?? 4000);
