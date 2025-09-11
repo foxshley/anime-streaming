@@ -1,9 +1,8 @@
 import { openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
-
+import { AnimeService } from "./services/anime";
 import { AuthService } from "./services/auth";
 import { logger } from "./utils/logger";
-import { AnimeService } from "./services/anime";
 
 const _app = new Elysia()
 	.use(logger)
