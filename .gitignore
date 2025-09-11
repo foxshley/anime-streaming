@@ -1,7 +1,32 @@
+# Node / Bun dependencies
 node_modules/
-.env
-.DS_Store
+bun.lockb
+.bun/
+
+# Logs
 *.log
-dist/
-build/
+logs/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
 .vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+*.lcov
+
+# Podman / Docker artifacts
+*.pid
+*.pid.lock
+*.tar
+*.tmp
+*.bak
