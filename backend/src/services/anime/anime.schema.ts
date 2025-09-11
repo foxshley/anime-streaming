@@ -11,23 +11,8 @@ import {
 	ApiResponseSingle,
 } from "../../types/api-response";
 
-const AnimeSchema = createSelectSchema(anime);
-
-// export const AnimeSchema = t.Object({
-// 	animeId: t.Number(),
-// 	title: t.String(),
-// 	originalTitle: t.String(),
-// 	description: t.Optional(t.String()),
-// 	coverImageUrl: t.Optional(t.String()),
-// 	bannerImageUrl: t.Optional(t.String()),
-// 	release_year: t.Optional(t.Number()),
-// 	status: t.String(),
-// 	totalEpisodes: t.Number(),
-// 	averageRating: t.Number(),
-// 	ageRating: t.Optional(t.String()),
-// 	createdAt: t.String(),
-// 	updatedAt: t.String(),
-// });
+const _animeSchema = createSelectSchema(anime);
+const AnimeSchema = t.Omit(_animeSchema, ["createdAt", "updatedAt"]);
 
 export const AnimeListItemSchema = t.Pick(AnimeSchema, [
 	"animeId",
