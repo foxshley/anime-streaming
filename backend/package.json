@@ -5,6 +5,7 @@
 		"dev": "bun run --watch src/index.ts",
 		"generate": "bun drizzle-kit generate --config=./src/config/drizzle.config.ts",
 		"migrate": "bun drizzle-kit migrate --config=./src/config/drizzle.config.ts",
+		"seed": "bun run src/db/seeds",
 		"better-auth:generate": "bunx --bun @better-auth/cli generate --output ./src/db/schema/auth.ts --config ./src/services/auth/providers/betterAuth.ts",
 		"better-auth:migrate": "bunx --bun @better-auth/cli migrate --config ./src/services/auth/providers/betterAuth.ts",
 		"check": "biome check",
