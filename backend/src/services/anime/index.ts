@@ -69,12 +69,13 @@ export const AnimeService = new Elysia({
 				return response;
 			}
 
+			set.status = 201;
 			return response;
 		},
 		{
 			body: PostAnimeRequestSchema,
 			response: {
-				200: PostAnimeResponseSchema,
+				201: PostAnimeResponseSchema,
 				500: PostAnimeErrorResponseSchema,
 			},
 			detail: {
