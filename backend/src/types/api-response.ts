@@ -29,6 +29,11 @@ export function ApiResponseList<T extends TSchema>(schema: T) {
 	});
 }
 
+export const ApiResponseDelete = t.Object({
+	meta: t.Optional(t.Object({})),
+	message: t.Optional(t.String()),
+});
+
 export const ApiErrorResponse = t.Object({
 	errors: t.Array(
 		t.Object({ status: t.Number(), title: t.String(), detail: t.String() }),

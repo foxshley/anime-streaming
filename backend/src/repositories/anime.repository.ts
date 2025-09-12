@@ -1,7 +1,12 @@
 import { and, count, eq } from "drizzle-orm";
 import { db } from "../db";
 import { anime } from "../db/schema/content";
-import type { AnimeListItem, AnimeType } from "../services/anime/anime.schema";
+import type {
+	AnimeInsertType,
+	AnimeListItem,
+	AnimeType,
+	AnimeUpdateType,
+} from "../services/anime/anime.schema";
 
 export abstract class AnimeRepository {
 	static async countAll(status?: string): Promise<number> {
@@ -49,5 +54,33 @@ export abstract class AnimeRepository {
 			.limit(1);
 
 		return result[0] ?? null;
+	}
+
+	static async create(data: AnimeInsertType): Promise<AnimeType> {
+		const [newAnime] = await db.insert(anime).values(data).returning();
+
+		return newAnime;
+	}
+
+	static async update(
+		id: number,
+		data: AnimeUpdateType,
+	): Promise<AnimeType | null> {
+		const [updatedAnime] = await db
+			.update(anime)
+			.set(data)
+			.where(eq(anime.animeId, id))
+			.returning();
+
+		return updatedAnime ?? null;
+	}
+
+	static async delete(id: number): Promise<boolean> {
+		const deleted = await db
+			.delete(anime)
+			.where(eq(anime.animeId, id))
+			.returning();
+
+		return deleted.length > 0;
 	}
 }

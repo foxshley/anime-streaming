@@ -1,10 +1,18 @@
 import { AnimeRepository } from "../../repositories/anime.repository";
 import type {
+	DeleteAnimeErrorResponse,
+	DeleteAnimeResponse,
 	GetAnimeRequest,
 	GetAnimeResponse,
 	GetSingleAnimeErrorResponse,
 	GetSingleAnimeRequest,
 	GetSingleAnimeResponse,
+	PatchAnimeErrorResponse,
+	PatchAnimeRequest,
+	PatchAnimeResponse,
+	PostAnimeErrorResponse,
+	PostAnimeRequest,
+	PostAnimeResponse,
 } from "./anime.schema";
 
 // const fakeDb = new Array(1000).fill(0).map((_, i) => ({
@@ -76,6 +84,105 @@ export abstract class Anime {
 		return {
 			data: animeData,
 			message: "Anime details fetched successfully",
+		};
+	}
+
+	static async createAnime(
+		body: PostAnimeRequest,
+	): Promise<PostAnimeResponse | PostAnimeErrorResponse> {
+		try {
+			const newAnime = await AnimeRepository.create(body.data);
+
+			return {
+				data: newAnime,
+				message: "Anime created successfully",
+			};
+		} catch (error) {
+			const _message =
+				error instanceof Error
+					? error.message
+					: typeof error === "string"
+						? error
+						: JSON.stringify(error);
+			// TODO: Log the error
+
+			return {
+				errors: [
+					{
+						status: 500,
+						title: "Internal Server Error",
+						detail: "An error occurred while creating the anime.",
+					},
+				],
+			};
+		}
+	}
+
+	static async updateAnime(
+		id: string,
+		body: PatchAnimeRequest,
+	): Promise<PatchAnimeResponse | PatchAnimeErrorResponse> {
+		try {
+			const updatedAnime = await AnimeRepository.update(Number(id), body.data);
+			if (!updatedAnime) {
+				return {
+					errors: [
+						{
+							status: 404,
+							title: "Not Found",
+							detail: `Anime not found`,
+						},
+					],
+				};
+			}
+
+			return {
+				data: updatedAnime,
+				message: "Anime updated successfully",
+			};
+		} catch (_error) {
+			return {
+				errors: [
+					{
+						status: 500,
+						title: "Internal Server Error",
+						detail: "An error occurred while updating the anime.",
+					},
+				],
+			};
+		}
+	}
+
+	static async deleteAnime(
+		id: string,
+	): Promise<DeleteAnimeResponse | DeleteAnimeErrorResponse> {
+		try {
+			const deleted = await AnimeRepository.delete(Number(id));
+			if (!deleted) {
+				return {
+					errors: [
+						{
+							status: 404,
+							title: "Not Found",
+							detail: `Anime not found`,
+						},
+					],
+				};
+			}
+		} catch (_error) {
+			return {
+				errors: [
+					{
+						status: 500,
+						title: "Internal Server Error",
+						detail: "An error occurred while deleting the anime.",
+					},
+				],
+			};
+		}
+
+		return {
+			message: "Anime deleted successfully",
 		};
 	}
 }
