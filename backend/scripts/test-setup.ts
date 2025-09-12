@@ -20,6 +20,9 @@ async function main() {
 	console.log("📦 Running migrations...");
 	await $`bun run migrate`;
 
+	console.log("\n🌱 Seeding database...");
+	await $`bun run seed`;
+
 	console.log("\n✅ Test environment ready!");
 }
 
