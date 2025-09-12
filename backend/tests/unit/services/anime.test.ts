@@ -149,7 +149,7 @@ describe("Anime Service", () => {
 		expect(response.message).toBe("Anime updated successfully");
 	});
 
-	it('PATCH /anime/:id - Not Found', async () => {
+	it("PATCH /anime/:id - Not Found", async () => {
 		const updateData = {
 			title: "Non-Existent Anime",
 		};
