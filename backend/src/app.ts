@@ -13,7 +13,7 @@ export const app = new Elysia()
 						{
 							status: set.status,
 							title: "Not Found",
-							detail: `The requested resource was not found.`,
+							detail: error.message,
 						},
 					],
 				};
