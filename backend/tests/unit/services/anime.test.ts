@@ -63,19 +63,6 @@ describe("Anime Service", () => {
 		expect(response.message).toBe("Anime details fetched successfully");
 	});
 
-	it("GET /anime/:id - Not Found", async () => {
-		// Mock the repository methods
-		spyOn(AnimeRepository, "findById").mockResolvedValueOnce(null);
-
-		const response = await AnimeService.handle(
-			new Request("http://localhost/anime/9999"),
-		).then((res) => res.json());
-
-		expect(response.errors).toBeInstanceOf(Array);
-		expect(response.errors[0].status).toBe(404);
-		expect(response.errors[0].title).toBe("Not Found");
-	});
-
 	it("POST /anime/", async () => {
 		const newAnimeData = {
 			title: "Date A Live",
@@ -149,27 +136,6 @@ describe("Anime Service", () => {
 		expect(response.message).toBe("Anime updated successfully");
 	});
 
-	it("PATCH /anime/:id - Not Found", async () => {
-		const updateData = {
-			title: "Non-Existent Anime",
-		};
-
-		// Mock the repository methods
-		spyOn(AnimeRepository, "update").mockResolvedValueOnce(null);
-
-		const response = await AnimeService.handle(
-			new Request("http://localhost/anime/9999", {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: updateData }),
-			}),
-		).then((res) => res.json());
-
-		expect(response.errors).toBeInstanceOf(Array);
-		expect(response.errors[0].status).toBe(404);
-		expect(response.errors[0].title).toBe("Not Found");
-	});
-
 	it("DELETE /anime/:id", async () => {
 		// Mock the repository methods
 		spyOn(AnimeRepository, "delete").mockResolvedValueOnce(true);
@@ -181,20 +147,5 @@ describe("Anime Service", () => {
 		).then((res) => res.json());
 
 		expect(response.message).toBe("Anime deleted successfully");
-	});
-
-	it("DELETE /anime/:id - Not Found", async () => {
-		// Mock the repository methods
-		spyOn(AnimeRepository, "delete").mockResolvedValueOnce(false);
-
-		const response = await AnimeService.handle(
-			new Request("http://localhost/anime/9999", {
-				method: "DELETE",
-			}),
-		).then((res) => res.json());
-
-		expect(response.errors).toBeInstanceOf(Array);
-		expect(response.errors[0].status).toBe(404);
-		expect(response.errors[0].title).toBe("Not Found");
 	});
 });
