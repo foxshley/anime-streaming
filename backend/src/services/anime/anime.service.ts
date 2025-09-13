@@ -1,172 +1,61 @@
+import { NotFoundError } from "elysia";
 import { AnimeRepository } from "../../repositories/anime.repository";
+import type { PaginationMetaType } from "../../types/pagination";
 import type {
-	DeleteAnimeErrorResponse,
-	DeleteAnimeResponse,
-	GetAnimeRequest,
-	GetAnimeResponse,
-	GetSingleAnimeErrorResponse,
-	GetSingleAnimeRequest,
-	GetSingleAnimeResponse,
-	PatchAnimeErrorResponse,
-	PatchAnimeRequest,
-	PatchAnimeResponse,
-	PostAnimeErrorResponse,
-	PostAnimeRequest,
-	PostAnimeResponse,
+	AnimeInsertType,
+	AnimeListItem,
+	AnimeType,
+	AnimeUpdateType,
 } from "./anime.schema";
 
 export abstract class Anime {
-	static async getAnimeList(query: GetAnimeRequest): Promise<GetAnimeResponse> {
-		const page = Number(query.page ?? 1);
-		const limit = Math.min(Number(query.limit ?? 20), 100); // cap limit at 100
-		const offset = (page - 1) * limit;
+	static async getAnimeList(
+		page: number,
+		limit: number,
+		status?: string,
+	): Promise<{ data: AnimeListItem[]; meta: PaginationMetaType }> {
+		const safePage = Math.max(page || 1, 1);
+		const safeLimit = Math.min(limit || 20, 100);
+		const offset = (safePage - 1) * safeLimit;
 
-		// count total first
-		const totalItems = await AnimeRepository.countAll(query.status);
-		const totalPages = Math.ceil(totalItems / limit);
+		const totalItems = await AnimeRepository.countAll(status);
+		const totalPages = Math.ceil(totalItems / safeLimit);
 
-		// Fetch paginated rows
-		const rows = await AnimeRepository.findAll(limit, offset, query.status);
+		const data = await AnimeRepository.findAll(safeLimit, offset, status);
 
 		return {
-			data: rows,
-			meta: {
-				page,
-				limit,
-				totalItems,
-				totalPages,
-			},
-			links: {
-				self: `/anime?page=${page}&limit=${limit}`,
-				next:
-					page < totalPages ? `/anime?page=${page + 1}&limit=${limit}` : null,
-				prev: page > 1 ? `/anime?page=${page - 1}&limit=${limit}` : null,
-				first: `/anime?page=1&limit=${limit}`,
-				last: `/anime?page=${totalPages}&limit=${limit}`,
-			},
-			message: "Anime list fetched successfully",
+			data,
+			meta: { page: safePage, limit: safeLimit, totalItems, totalPages },
 		};
 	}
 
-	static async getAnimeById(
-		params: GetSingleAnimeRequest,
-	): Promise<GetSingleAnimeResponse | GetSingleAnimeErrorResponse> {
-		const animeData = await AnimeRepository.findById(Number(params.id));
+	static async getAnimeById(id: number): Promise<AnimeType> {
+		const anime = await AnimeRepository.findById(id);
 
-		if (!animeData) {
-			return {
-				errors: [
-					{
-						status: 404,
-						title: "Not Found",
-						detail: `Anime not found`,
-					},
-				],
-			};
-		}
-
-		return {
-			data: animeData,
-			message: "Anime details fetched successfully",
-		};
+		if (!anime) throw new NotFoundError("Anime not found");
+		return anime;
 	}
 
-	static async createAnime(
-		body: PostAnimeRequest,
-	): Promise<PostAnimeResponse | PostAnimeErrorResponse> {
-		try {
-			const newAnime = await AnimeRepository.create(body.data);
+	static async createAnime(data: AnimeInsertType): Promise<AnimeType> {
+		const newAnime = await AnimeRepository.create(data);
 
-			return {
-				data: newAnime,
-				message: "Anime created successfully",
-			};
-		} catch (error) {
-			const _message =
-				error instanceof Error
-					? error.message
-					: typeof error === "string"
-						? error
-						: JSON.stringify(error);
-			// TODO: Log the error
-
-			return {
-				errors: [
-					{
-						status: 500,
-						title: "Internal Server Error",
-						detail: "An error occurred while creating the anime.",
-					},
-				],
-			};
-		}
+		return newAnime;
 	}
 
 	static async updateAnime(
-		id: string,
-		body: PatchAnimeRequest,
-	): Promise<PatchAnimeResponse | PatchAnimeErrorResponse> {
-		try {
-			const updatedAnime = await AnimeRepository.update(Number(id), body.data);
-			if (!updatedAnime) {
-				return {
-					errors: [
-						{
-							status: 404,
-							title: "Not Found",
-							detail: `Anime not found`,
-						},
-					],
-				};
-			}
+		id: number,
+		data: AnimeUpdateType,
+	): Promise<AnimeType> {
+		const anime = await AnimeRepository.update(id, data);
+		if (!anime) throw new NotFoundError("Anime not found");
 
-			return {
-				data: updatedAnime,
-				message: "Anime updated successfully",
-			};
-		} catch (_error) {
-			return {
-				errors: [
-					{
-						status: 500,
-						title: "Internal Server Error",
-						detail: "An error occurred while updating the anime.",
-					},
-				],
-			};
-		}
+		return anime;
 	}
 
-	static async deleteAnime(
-		id: string,
-	): Promise<DeleteAnimeResponse | DeleteAnimeErrorResponse> {
-		try {
-			const deleted = await AnimeRepository.delete(Number(id));
-			if (!deleted) {
-				return {
-					errors: [
-						{
-							status: 404,
-							title: "Not Found",
-							detail: `Anime not found`,
-						},
-					],
-				};
-			}
-		} catch (_error) {
-			return {
-				errors: [
-					{
-						status: 500,
-						title: "Internal Server Error",
-						detail: "An error occurred while deleting the anime.",
-					},
-				],
-			};
-		}
+	static async deleteAnime(id: number): Promise<boolean> {
+		const deleted = await AnimeRepository.delete(id);
+		if (!deleted) throw new NotFoundError("Anime not found");
 
-		return {
-			message: "Anime deleted successfully",
-		};
+		return deleted;
 	}
 }

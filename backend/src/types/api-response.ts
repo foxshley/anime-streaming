@@ -1,4 +1,5 @@
 import { type TSchema, t } from "elysia";
+import { PaginationLinksSchema, PaginationMetaSchema } from "./pagination";
 
 export function ApiResponseSingle<T extends TSchema>(schema: T) {
 	return t.Object({
@@ -12,19 +13,8 @@ export function ApiResponseSingle<T extends TSchema>(schema: T) {
 export function ApiResponseList<T extends TSchema>(schema: T) {
 	return t.Object({
 		data: t.Array(schema),
-		meta: t.Object({
-			page: t.Number(),
-			limit: t.Number(),
-			totalItems: t.Number(),
-			totalPages: t.Number(),
-		}),
-		links: t.Object({
-			self: t.String(),
-			next: t.Union([t.String(), t.Null()]),
-			prev: t.Union([t.String(), t.Null()]),
-			first: t.String(),
-			last: t.String(),
-		}),
+		meta: PaginationMetaSchema,
+		links: PaginationLinksSchema,
 		message: t.Optional(t.String()),
 	});
 }

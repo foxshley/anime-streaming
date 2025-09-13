@@ -1,17 +1,13 @@
 import { Elysia } from "elysia";
 import {
-	DeleteAnimeErrorResponseSchema,
 	DeleteAnimeRequestSchema,
 	DeleteAnimeResponseSchema,
 	GetAnimeRequestSchema,
 	GetAnimeResponseSchema,
-	GetSingleAnimeErrorResponseSchema,
 	GetSingleAnimeRequestSchema,
 	GetSingleAnimeResponseSchema,
-	PatchAnimeErrorResponseSchema,
 	PatchAnimeRequestSchema,
 	PatchAnimeResponseSchema,
-	PostAnimeErrorResponseSchema,
 	PostAnimeRequestSchema,
 	PostAnimeResponseSchema,
 } from "./anime.schema";
@@ -24,8 +20,33 @@ export const AnimeService = new Elysia({
 	.get(
 		"/",
 		async ({ query }) => {
-			const response = await Anime.getAnimeList(query);
-			return response;
+			const page = Number(query.page ?? 1);
+			const limit = Number(query.limit ?? 20);
+
+			const { data, meta } = await Anime.getAnimeList(
+				page,
+				limit,
+				query.status,
+			);
+
+			return {
+				data,
+				meta,
+				links: {
+					self: `/anime?page=${meta.page}&limit=${meta.limit}`,
+					next:
+						meta.page < meta.totalPages
+							? `/anime?page=${meta.page + 1}&limit=${meta.limit}`
+							: null,
+					prev:
+						meta.page > 1
+							? `/anime?page=${meta.page - 1}&limit=${meta.limit}`
+							: null,
+					first: `/anime?page=1&limit=${meta.limit}`,
+					last: `/anime?page=${meta.totalPages}&limit=${meta.limit}`,
+				},
+				message: "Anime list fetched successfully",
+			};
 		},
 		{
 			query: GetAnimeRequestSchema,
@@ -38,21 +59,17 @@ export const AnimeService = new Elysia({
 	)
 	.get(
 		"/:id",
-		async ({ params, set }) => {
-			const response = await Anime.getAnimeById(params);
-			if ("errors" in response) {
-				set.status = 404;
-				return response;
-			}
+		async ({ params }) => {
+			const data = await Anime.getAnimeById(Number(params.id));
 
-			return response;
+			return {
+				data,
+				message: "Anime details fetched successfully",
+			};
 		},
 		{
 			params: GetSingleAnimeRequestSchema,
-			response: {
-				200: GetSingleAnimeResponseSchema,
-				404: GetSingleAnimeErrorResponseSchema,
-			},
+			response: GetSingleAnimeResponseSchema,
 			detail: {
 				summary: "Get anime by ID",
 				tags: ["Anime"],
@@ -62,22 +79,17 @@ export const AnimeService = new Elysia({
 	.post(
 		"/",
 		async ({ body, set }) => {
-			const response = await Anime.createAnime(body);
-
-			if ("errors" in response) {
-				set.status = response.errors[0]?.status || 500;
-				return response;
-			}
+			const data = await Anime.createAnime(body.data);
 
 			set.status = 201;
-			return response;
+			return {
+				data,
+				message: "Anime created successfully",
+			};
 		},
 		{
 			body: PostAnimeRequestSchema,
-			response: {
-				201: PostAnimeResponseSchema,
-				500: PostAnimeErrorResponseSchema,
-			},
+			response: PostAnimeResponseSchema,
 			detail: {
 				summary: "Create a new anime",
 				tags: ["Anime"],
@@ -86,23 +98,18 @@ export const AnimeService = new Elysia({
 	)
 	.patch(
 		"/:id",
-		async ({ params, body, set }) => {
-			const response = await Anime.updateAnime(params.id, body);
+		async ({ params, body }) => {
+			const data = await Anime.updateAnime(Number(params.id), body.data);
 
-			if ("errors" in response) {
-				set.status = response.errors[0]?.status || 500;
-				return response;
-			}
-
-			return response;
+			return {
+				data,
+				message: "Anime updated successfully",
+			};
 		},
 		{
 			params: GetSingleAnimeRequestSchema,
 			body: PatchAnimeRequestSchema,
-			response: {
-				200: PatchAnimeResponseSchema,
-				500: PatchAnimeErrorResponseSchema,
-			},
+			response: PatchAnimeResponseSchema,
 			detail: {
 				summary: "Update an existing anime",
 				tags: ["Anime"],
@@ -111,22 +118,16 @@ export const AnimeService = new Elysia({
 	)
 	.delete(
 		"/:id",
-		async ({ params, set }) => {
-			const response = await Anime.deleteAnime(params.id);
-			if ("errors" in response) {
-				set.status = response.errors[0]?.status || 500;
-				return response;
-			}
+		async ({ params }) => {
+			await Anime.deleteAnime(Number(params.id));
 
-			return response;
+			return {
+				message: "Anime deleted successfully",
+			};
 		},
 		{
 			params: DeleteAnimeRequestSchema,
-			response: {
-				200: DeleteAnimeResponseSchema,
-				404: DeleteAnimeErrorResponseSchema,
-				500: DeleteAnimeErrorResponseSchema,
-			},
+			response: DeleteAnimeResponseSchema,
 			detail: {
 				summary: "Delete an anime",
 				tags: ["Anime"],

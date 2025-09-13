@@ -12,7 +12,6 @@ import {
 	ApiRequestUpdateBody,
 } from "../../types/api-request";
 import {
-	ApiErrorResponse,
 	ApiResponseDelete,
 	ApiResponseList,
 	ApiResponseSingle,
@@ -58,42 +57,17 @@ export const GetAnimeRequestSchema = t.Composite([
 export const GetAnimeResponseSchema = ApiResponseList(AnimeListItemSchema);
 export const GetSingleAnimeRequestSchema = ApiRequestByIdParams;
 export const GetSingleAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
-export const GetSingleAnimeErrorResponseSchema = ApiErrorResponse;
 
 export const PostAnimeRequestSchema = ApiRequestCreateBody(AnimeInsertSchema);
 export const PostAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
-export const PostAnimeErrorResponseSchema = ApiErrorResponse;
 
 export const PatchAnimeRequestSchema = ApiRequestUpdateBody(AnimeUpdateSchema);
 export const PatchAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
-export const PatchAnimeErrorResponseSchema = ApiErrorResponse;
 
 export const DeleteAnimeRequestSchema = ApiRequestByIdParams;
 export const DeleteAnimeResponseSchema = ApiResponseDelete;
-export const DeleteAnimeErrorResponseSchema = ApiErrorResponse;
 
 export type AnimeType = typeof AnimeSchema.static;
 export type AnimeInsertType = typeof AnimeInsertSchema.static;
 export type AnimeUpdateType = typeof AnimeUpdateSchema.static;
 export type AnimeListItem = typeof AnimeListItemSchema.static;
-
-export type GetAnimeRequest = typeof GetAnimeRequestSchema.static;
-export type GetAnimeResponse = typeof GetAnimeResponseSchema.static;
-export type GetSingleAnimeRequest = typeof GetSingleAnimeRequestSchema.static;
-export type GetSingleAnimeResponse = typeof GetSingleAnimeResponseSchema.static;
-export type GetSingleAnimeErrorResponse =
-	typeof GetSingleAnimeErrorResponseSchema.static;
-
-export type PostAnimeRequest = typeof PostAnimeRequestSchema.static;
-export type PostAnimeResponse = typeof PostAnimeResponseSchema.static;
-export type PostAnimeErrorResponse = typeof PostAnimeErrorResponseSchema.static;
-
-export type PatchAnimeRequest = typeof PatchAnimeRequestSchema.static;
-export type PatchAnimeResponse = typeof PatchAnimeResponseSchema.static;
-export type PatchAnimeErrorResponse =
-	typeof PatchAnimeErrorResponseSchema.static;
-
-export type DeleteAnimeRequest = typeof DeleteAnimeRequestSchema.static;
-export type DeleteAnimeResponse = typeof DeleteAnimeResponseSchema.static;
-export type DeleteAnimeErrorResponse =
-	typeof DeleteAnimeErrorResponseSchema.static;
