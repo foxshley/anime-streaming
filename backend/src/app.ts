@@ -59,4 +59,4 @@ export const app = new Elysia()
 	})
 	.use(AuthService)
 	.use(AnimeService)
-	.get("/", () => "Hello Elysia")
+	.get("/", () => "Hello Elysia");

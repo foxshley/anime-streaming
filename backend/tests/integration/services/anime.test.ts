@@ -3,9 +3,9 @@ import { app } from "../../../src/app";
 
 describe("Anime Service", () => {
 	it("GET /anime/", async () => {
-		const response = await app.handle(
-			new Request("http://localhost/anime/"),
-		).then((res) => res.json());
+		const response = await app
+			.handle(new Request("http://localhost/anime/"))
+			.then((res) => res.json());
 
 		expect(response.data).toBeInstanceOf(Array);
 		expect(response.data.length).toBeGreaterThan(0);
@@ -15,9 +15,9 @@ describe("Anime Service", () => {
 	});
 
 	it("GET /anime/:id", async () => {
-		const response = await app.handle(
-			new Request("http://localhost/anime/1"),
-		).then((res) => res.json());
+		const response = await app
+			.handle(new Request("http://localhost/anime/1"))
+			.then((res) => res.json());
 
 		expect(response.data).toBeInstanceOf(Object);
 		expect(response.data.animeId).toBe(1);
@@ -26,9 +26,9 @@ describe("Anime Service", () => {
 
 	it("GET /anime/:id - Not Found", async () => {
 		// Mock the repository methods
-		const response = await app.handle(
-			new Request("http://localhost/anime/9999"),
-		).then((res) => res.json());
+		const response = await app
+			.handle(new Request("http://localhost/anime/9999"))
+			.then((res) => res.json());
 
 		expect(response.errors).toBeInstanceOf(Array);
 		expect(response.errors[0].status).toBe(404);
@@ -49,13 +49,15 @@ describe("Anime Service", () => {
 			ageRating: "PG-13",
 		};
 
-		const response = await app.handle(
-			new Request("http://localhost/anime/", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: newAnimeData }),
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ data: newAnimeData }),
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.data).toBeInstanceOf(Object);
 		expect(response.data.title).toBe("Date A Live");
@@ -76,13 +78,15 @@ describe("Anime Service", () => {
 			ageRating: "PG-13",
 		};
 
-		const response = await app.handle(
-			new Request("http://localhost/anime/", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: newAnimeData }),
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ data: newAnimeData }),
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.errors).toBeInstanceOf(Array);
 		expect(response.errors[0].status).toBe(422);
@@ -95,13 +99,15 @@ describe("Anime Service", () => {
 			totalEpisodes: 24,
 		};
 
-		const response = await app.handle(
-			new Request("http://localhost/anime/3", {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: updateData }),
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/3", {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ data: updateData }),
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.data).toBeInstanceOf(Object);
 		expect(response.data.title).toBe("Date A Live II");
@@ -114,13 +120,15 @@ describe("Anime Service", () => {
 			title: "Non-Existent Anime",
 		};
 
-		const response = await app.handle(
-			new Request("http://localhost/anime/9999", {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: updateData }),
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/9999", {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ data: updateData }),
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.errors).toBeInstanceOf(Array);
 		expect(response.errors[0].status).toBe(404);
@@ -132,13 +140,15 @@ describe("Anime Service", () => {
 			title: 2342432,
 		};
 
-		const response = await app.handle(
-			new Request("http://localhost/anime/3", {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ data: updateData }),
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/3", {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ data: updateData }),
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.errors).toBeInstanceOf(Array);
 		expect(response.errors[0].status).toBe(422);
@@ -146,21 +156,25 @@ describe("Anime Service", () => {
 	});
 
 	it("DELETE /anime/:id", async () => {
-		const response = await app.handle(
-			new Request("http://localhost/anime/3", {
-				method: "DELETE",
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/3", {
+					method: "DELETE",
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.message).toBe("Anime deleted successfully");
 	});
 
 	it("DELETE /anime/:id - Not Found", async () => {
-		const response = await app.handle(
-			new Request("http://localhost/anime/9999", {
-				method: "DELETE",
-			}),
-		).then((res) => res.json());
+		const response = await app
+			.handle(
+				new Request("http://localhost/anime/9999", {
+					method: "DELETE",
+				}),
+			)
+			.then((res) => res.json());
 
 		expect(response.errors).toBeInstanceOf(Array);
 		expect(response.errors[0].status).toBe(404);

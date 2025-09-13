@@ -1,7 +1,7 @@
 import { openapi } from "@elysiajs/openapi";
-import { logger } from "./utils/logger";
-import { app } from "./app";
 import { Elysia } from "elysia";
+import { app } from "./app";
+import { logger } from "./utils/logger";
 
 const _server = new Elysia()
 	.use(logger)
