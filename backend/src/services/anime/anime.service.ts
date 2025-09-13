@@ -15,22 +15,6 @@ import type {
 	PostAnimeResponse,
 } from "./anime.schema";
 
-// const fakeDb = new Array(1000).fill(0).map((_, i) => ({
-// 	animeId: i + 1,
-// 	title: `Anime #${i + 1}`,
-// 	originalTitle: `Original Anime #${i + 1}`,
-// 	description: `Description for anime ${i + 1}`,
-// 	coverImageUrl: "",
-// 	bannerImageUrl: "",
-// 	release_year: 2000 + (i % 25),
-// 	status: i % 2 ? "ongoing" : "completed",
-// 	totalEpisodes: Math.floor(Math.random() * 200),
-// 	averageRating: String((Math.random() * 5).toFixed(2)),
-// 	ageRating: "PG-13",
-// 	createdAt: new Date().toISOString(),
-// 	updatedAt: new Date().toISOString(),
-// }));
-
 export abstract class Anime {
 	static async getAnimeList(query: GetAnimeRequest): Promise<GetAnimeResponse> {
 		const page = Number(query.page ?? 1);
