@@ -25,7 +25,7 @@ export const app = new Elysia()
 						{
 							status: set.status,
 							title: "Validation Error",
-							detail: `There were validation errors with the request.\n${error.detail(error.message)}`,
+							detail: JSON.parse(error.message),
 						},
 					],
 				};
