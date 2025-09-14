@@ -39,6 +39,9 @@ jobs:
       - name: Install deps
         run: bun install
 
+      - name: Generate drizzle meta
+        run: bun run generate
+
       - name: Run migrations
         run: bun run migrate
 
