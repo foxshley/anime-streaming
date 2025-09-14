@@ -31,8 +31,8 @@ export abstract class Anime {
 
 	static async getAnimeById(id: number): Promise<AnimeType> {
 		const anime = await AnimeRepository.findById(id);
-
 		if (!anime) throw new NotFoundError("Anime not found");
+		
 		return anime;
 	}
 
