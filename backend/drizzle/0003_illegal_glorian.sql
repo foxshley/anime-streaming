@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "unique_title_original" ON "anime"."anime" USING btree ("title","original_title");

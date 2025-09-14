@@ -20,23 +20,29 @@ import {
 
 export const contentSchema = pgSchema("anime");
 
-export const anime = contentSchema.table("anime", {
-	animeId: serial("anime_id").primaryKey(),
-	title: varchar("title", { length: 255 }).notNull(),
-	originalTitle: varchar("original_title", { length: 255 }).notNull(),
-	description: text("description"),
-	coverImageUrl: varchar("cover_image_url", { length: 255 }),
-	bannerImageUrl: varchar("banner_image_url", { length: 255 }),
-	release_year: smallint("release_year"),
-	status: varchar("status", { length: 20 }).default("ongoing").notNull(),
-	totalEpisodes: integer("total_episodes").default(0).notNull(),
-	averageRating: decimal("average_rating", { precision: 3, scale: 2 })
-		.default("0.00")
-		.notNull(),
-	ageRating: varchar("age_rating", { length: 10 }),
-	createdAt: timestamp("created_at").defaultNow().notNull(),
-	updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+export const anime = contentSchema.table(
+	"anime",
+	{
+		animeId: serial("anime_id").primaryKey(),
+		title: varchar("title", { length: 255 }).notNull(),
+		originalTitle: varchar("original_title", { length: 255 }).notNull(),
+		description: text("description"),
+		coverImageUrl: varchar("cover_image_url", { length: 255 }),
+		bannerImageUrl: varchar("banner_image_url", { length: 255 }),
+		release_year: smallint("release_year"),
+		status: varchar("status", { length: 20 }).default("ongoing").notNull(),
+		totalEpisodes: integer("total_episodes").default(0).notNull(),
+		averageRating: decimal("average_rating", { precision: 3, scale: 2 })
+			.default("0.00")
+			.notNull(),
+		ageRating: varchar("age_rating", { length: 10 }),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		updatedAt: timestamp("updated_at").defaultNow().notNull(),
+	},
+	(table) => [
+		uniqueIndex("unique_title_original").on(table.title, table.originalTitle),
+	],
+);
 
 export const episodes = contentSchema.table(
 	"episodes",
