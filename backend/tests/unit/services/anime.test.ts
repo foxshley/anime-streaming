@@ -138,7 +138,7 @@ describe("Anime Service", () => {
 
 	it("DELETE /anime/:id", async () => {
 		// Mock the repository methods
-		spyOn(AnimeRepository, "delete").mockResolvedValueOnce(true);
+		spyOn(AnimeRepository, "remove").mockResolvedValueOnce(true);
 
 		const response = await AnimeService.handle(
 			new Request("http://localhost/anime/3", {
