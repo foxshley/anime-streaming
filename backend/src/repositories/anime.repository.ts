@@ -1,4 +1,5 @@
 import { and, count, eq } from "drizzle-orm";
+import { InternalServerError } from "elysia";
 import { db } from "../db";
 import { anime } from "../db/schema/content";
 import type {
@@ -27,60 +28,80 @@ async function findAll(
 	offset: number,
 	status?: string,
 ): Promise<AnimeListItem[]> {
-	const conditions = [];
-	if (status) {
-		conditions.push(eq(anime.status, status));
-	}
+	try {
+		const conditions = [];
+		if (status) {
+			conditions.push(eq(anime.status, status));
+		}
 
-	return db
-		.select({
-			animeId: anime.animeId,
-			title: anime.title,
-			originalTitle: anime.originalTitle,
-			totalEpisodes: anime.totalEpisodes,
-		})
-		.from(anime)
-		.where(conditions.length ? and(...conditions) : undefined)
-		.limit(limit)
-		.offset(offset);
+		return db
+			.select({
+				animeId: anime.animeId,
+				title: anime.title,
+				originalTitle: anime.originalTitle,
+				totalEpisodes: anime.totalEpisodes,
+			})
+			.from(anime)
+			.where(conditions.length ? and(...conditions) : undefined)
+			.limit(limit)
+			.offset(offset);
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
+	}
 }
 
 async function findById(id: number): Promise<AnimeType | null> {
-	const result = await db
-		.select()
-		.from(anime)
-		.where(eq(anime.animeId, id))
-		.limit(1);
+	try {
+		const result = await db
+			.select()
+			.from(anime)
+			.where(eq(anime.animeId, id))
+			.limit(1);
 
-	return result[0] ?? null;
+		return result[0] ?? null;
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
+	}
 }
 
 async function create(data: AnimeInsertType): Promise<AnimeType> {
-	const [newAnime] = await db.insert(anime).values(data).returning();
+	try {
+		const [newAnime] = await db.insert(anime).values(data).returning();
 
-	return newAnime;
+		return newAnime;
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
+	}
 }
 
 async function update(
 	id: number,
 	data: AnimeUpdateType,
 ): Promise<AnimeType | null> {
-	const [updatedAnime] = await db
-		.update(anime)
-		.set(data)
-		.where(eq(anime.animeId, id))
-		.returning();
+	try {
+		const [updatedAnime] = await db
+			.update(anime)
+			.set(data)
+			.where(eq(anime.animeId, id))
+			.returning();
 
-	return updatedAnime ?? null;
+		return updatedAnime ?? null;
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
+	}
 }
 
 async function remove(id: number): Promise<boolean> {
-	const deleted = await db
-		.delete(anime)
-		.where(eq(anime.animeId, id))
-		.returning();
+	try {
+		const deleted = await db
+			.delete(anime)
+			.where(eq(anime.animeId, id))
+			.returning();
 
-	return deleted.length > 0;
+		return deleted.length > 0;
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
+	}
 }
 
 export const AnimeRepository = {
