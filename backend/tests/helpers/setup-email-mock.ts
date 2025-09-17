@@ -1,4 +1,4 @@
-import { auth } from "../src/services/auth/providers/betterAuth";
+import { auth } from "../../src/services/auth/providers/betterAuth";
 
 let capturedToken: string | null = null;
 

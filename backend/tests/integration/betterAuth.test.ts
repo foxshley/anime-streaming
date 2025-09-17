@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "bun:test";
 import { faker } from "@faker-js/faker";
 import { db } from "../../src/db/providers/postgres";
 import { AuthService } from "../../src/services/auth";
-import { capturedToken } from "../setup-email-mock";
+import { capturedToken } from "../helpers/setup-email-mock";
 
 async function invoke(method: string, path: string, body?: any) {
 	const init: RequestInit = { method };
