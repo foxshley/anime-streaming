@@ -1,26 +1,30 @@
-import { spawn } from "node:child_process";
+async function waitForDb(retries = 15, delayMs = 1000): Promise<void> {
+	let attempt = 0;
 
-function waitForDb(retries = 15, delayMs = 1000): Promise<void> {
 	return new Promise((resolve, reject) => {
-		let attempt = 0;
-
 		const check = () => {
 			attempt++;
-			const proc = spawn("podman", [
-				"exec",
-				"anime-streaming-backend-test-db",
-				"pg_isready",
-				"-h",
-				"localhost",
-				"-p",
-				"5432",
-				"-U",
-				"testuser",
-				"-d",
-				"anime_streaming_test",
-			]);
 
-			proc.on("exit", (code) => {
+			const proc = Bun.spawn({
+				cmd: [
+					"podman",
+					"exec",
+					"anime-streaming-backend-test-db",
+					"pg_isready",
+					"-h",
+					"localhost",
+					"-p",
+					"5432",
+					"-U",
+					"testuser",
+					"-d",
+					"anime_streaming_test",
+				],
+				stdout: "ignore",
+				stderr: "ignore",
+			});
+
+			proc.exited.then((code) => {
 				if (code === 0) {
 					console.log("✅ Database is ready!");
 					resolve();
@@ -38,3 +42,5 @@ function waitForDb(retries = 15, delayMs = 1000): Promise<void> {
 }
 
 await waitForDb();
+
+export {};
