@@ -21,8 +21,6 @@ if (!hasDocker && !hasPodman) {
 	process.exit(1);
 }
 
-console.log(`✅ Using ${hasDocker ? "Docker" : "Podman"} for test environment`);
-
 try {
 	console.log("🐘 Starting test environment...");
 	await $`bun run test:setup`;
