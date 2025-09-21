@@ -3,7 +3,7 @@ import {
 	createSelectSchema,
 	createUpdateSchema,
 } from "drizzle-typebox";
-import { t } from "elysia";
+import { t, Elysia } from "elysia";
 import { anime } from "../../db/schema/content";
 import {
 	ApiRequestByIdParams,
@@ -40,7 +40,7 @@ export const AnimeListItemSchema = t.Pick(AnimeSchema, [
 	"totalEpisodes",
 ]);
 
-export const GetAnimeRequestSchema = t.Composite([
+export const GetAnimeListReqQuerySchema = t.Composite([
 	ApiRequestListQuery,
 	t.Object({
 		status: t.Optional(t.String({ maxLength: 20 })),
@@ -54,18 +54,43 @@ export const GetAnimeRequestSchema = t.Composite([
 		),
 	}),
 ]);
-export const GetAnimeResponseSchema = ApiResponseList(AnimeListItemSchema);
-export const GetSingleAnimeRequestSchema = ApiRequestByIdParams;
-export const GetSingleAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
 
-export const PostAnimeRequestSchema = ApiRequestCreateBody(AnimeInsertSchema);
-export const PostAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
+const GetAnimeListResSchema = ApiResponseList(AnimeListItemSchema);
+const GetAnimeSingleReqParamsSchema = ApiRequestByIdParams;
+const GetAnimeSingleResSchema = ApiResponseSingle(AnimeSchema);
 
-export const PatchAnimeRequestSchema = ApiRequestUpdateBody(AnimeUpdateSchema);
-export const PatchAnimeResponseSchema = ApiResponseSingle(AnimeSchema);
+const PostAnimeBodySchema = ApiRequestCreateBody(AnimeInsertSchema);
+const PostAnimeResSchema = ApiResponseSingle(AnimeSchema);
 
-export const DeleteAnimeRequestSchema = ApiRequestByIdParams;
-export const DeleteAnimeResponseSchema = ApiResponseDelete;
+const PatchAnimeReqParamsSchema = ApiRequestByIdParams;
+const PatchAnimeBodySchema = ApiRequestUpdateBody(AnimeUpdateSchema);
+const PatchAnimeResSchema = ApiResponseSingle(AnimeSchema);
+
+const DeleteAnimeReqParamsSchema = ApiRequestByIdParams;
+const DeleteAnimeResSchema = ApiResponseDelete;
+
+export const AnimeModel = new Elysia().model({
+	// GET /anime
+	"anime.get.req.query": GetAnimeListReqQuerySchema,
+	"anime.get.res": GetAnimeListResSchema,
+
+	// GET /anime/:id
+	"anime.get.id.req.params": GetAnimeSingleReqParamsSchema,
+	"anime.get.id.res": GetAnimeSingleResSchema,
+
+	// POST /anime
+	"anime.post.req.body": PostAnimeBodySchema,
+	"anime.post.res": PostAnimeResSchema,
+
+	// PATCH /anime/:id
+	"anime.patch.req.params": PatchAnimeReqParamsSchema,
+	"anime.patch.req.body": PatchAnimeBodySchema,
+	"anime.patch.res": PatchAnimeResSchema,
+
+	// DELETE /anime/:id
+	"anime.delete.req.params": DeleteAnimeReqParamsSchema,
+	"anime.delete.res": DeleteAnimeResSchema,
+});
 
 export type AnimeType = typeof AnimeSchema.static;
 export type AnimeInsertType = typeof AnimeInsertSchema.static;

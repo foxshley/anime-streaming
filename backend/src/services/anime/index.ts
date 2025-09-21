@@ -1,22 +1,12 @@
 import { Elysia } from "elysia";
-import {
-	DeleteAnimeRequestSchema,
-	DeleteAnimeResponseSchema,
-	GetAnimeRequestSchema,
-	GetAnimeResponseSchema,
-	GetSingleAnimeRequestSchema,
-	GetSingleAnimeResponseSchema,
-	PatchAnimeRequestSchema,
-	PatchAnimeResponseSchema,
-	PostAnimeRequestSchema,
-	PostAnimeResponseSchema,
-} from "./anime.schema";
+import { AnimeModel } from "./anime.schema";
 import { Anime } from "./anime.service";
 
 export const AnimeService = new Elysia({
 	name: "Service.Anime",
 	prefix: "/anime",
 })
+	.use(AnimeModel)
 	.get(
 		"/",
 		async ({ query }) => {
@@ -49,8 +39,8 @@ export const AnimeService = new Elysia({
 			};
 		},
 		{
-			query: GetAnimeRequestSchema,
-			response: GetAnimeResponseSchema,
+			query: "anime.get.req.query",
+			response: "anime.get.res",
 			detail: {
 				summary: "Paginated list of anime",
 				tags: ["Anime"],
@@ -68,8 +58,8 @@ export const AnimeService = new Elysia({
 			};
 		},
 		{
-			params: GetSingleAnimeRequestSchema,
-			response: GetSingleAnimeResponseSchema,
+			params: "anime.get.id.req.params",
+			response: "anime.get.id.res",
 			detail: {
 				summary: "Get anime by ID",
 				tags: ["Anime"],
@@ -88,8 +78,8 @@ export const AnimeService = new Elysia({
 			};
 		},
 		{
-			body: PostAnimeRequestSchema,
-			response: PostAnimeResponseSchema,
+			body: "anime.post.req.body",
+			response: "anime.post.res",
 			detail: {
 				summary: "Create a new anime",
 				tags: ["Anime"],
@@ -107,9 +97,9 @@ export const AnimeService = new Elysia({
 			};
 		},
 		{
-			params: GetSingleAnimeRequestSchema,
-			body: PatchAnimeRequestSchema,
-			response: PatchAnimeResponseSchema,
+			params: "anime.patch.req.params",
+			body: "anime.patch.req.body",
+			response: "anime.patch.res",
 			detail: {
 				summary: "Update an existing anime",
 				tags: ["Anime"],
@@ -126,8 +116,8 @@ export const AnimeService = new Elysia({
 			};
 		},
 		{
-			params: DeleteAnimeRequestSchema,
-			response: DeleteAnimeResponseSchema,
+			params: "anime.delete.req.params",
+			response: "anime.delete.res",
 			detail: {
 				summary: "Delete an anime",
 				tags: ["Anime"],
