@@ -21,7 +21,3 @@ export function ApiRequestUpdateBody<T extends TSchema>(schema: T) {
 		data: t.Partial(schema), // Partial for updates
 	});
 }
-
-export const ApiRequestDeleteParams = t.Object({
-	id: t.String(),
-});
