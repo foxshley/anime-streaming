@@ -3,7 +3,7 @@ import {
 	createSelectSchema,
 	createUpdateSchema,
 } from "drizzle-typebox";
-import { t, Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { anime } from "../../db/schema/content";
 import {
 	ApiRequestByIdParams,
