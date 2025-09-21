@@ -10,17 +10,21 @@ import type {
 } from "../services/anime/anime.schema";
 
 async function countAll(status?: string): Promise<number> {
-	const conditions = [];
-	if (status) {
-		conditions.push(eq(anime.status, status));
+	try {
+		const conditions = [];
+		if (status) {
+			conditions.push(eq(anime.status, status));
+		}
+
+		const result = await db
+			.select({ count: count(anime.animeId) })
+			.from(anime)
+			.where(conditions.length ? and(...conditions) : undefined);
+
+		return Number(result[0]?.count ?? 0);
+	} catch (err) {
+		throw new InternalServerError(`DB_ERROR: ${(err as Error).message}`);
 	}
-
-	const result = await db
-		.select({ count: count(anime.animeId) })
-		.from(anime)
-		.where(conditions.length ? and(...conditions) : undefined);
-
-	return Number(result[0]?.count ?? 0);
 }
 
 async function findAll(
