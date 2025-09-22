@@ -1,7 +1,6 @@
 import { describe, expect, it, spyOn } from "bun:test";
 import { AnimeRepository } from "../../../src/repositories/anime.repository";
 import { AnimeService } from "../../../src/services/anime";
-import { F } from "@faker-js/faker/dist/airline-CHFQMWko";
 
 describe("Anime Service", () => {
 	it("GET /anime/", async () => {
