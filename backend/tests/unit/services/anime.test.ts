@@ -1,6 +1,7 @@
 import { describe, expect, it, spyOn } from "bun:test";
 import { AnimeRepository } from "../../../src/repositories/anime.repository";
 import { AnimeService } from "../../../src/services/anime";
+import { F } from "@faker-js/faker/dist/airline-CHFQMWko";
 
 describe("Anime Service", () => {
 	it("GET /anime/", async () => {
@@ -47,6 +48,7 @@ describe("Anime Service", () => {
 			totalEpisodes: 26,
 			averageRating: "4.5",
 			ageRating: "PG-13",
+			featured: false,
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		};
@@ -81,6 +83,7 @@ describe("Anime Service", () => {
 		spyOn(AnimeRepository, "create").mockResolvedValueOnce({
 			animeId: 3,
 			...newAnimeData,
+			featured: false,
 		});
 
 		const response = await AnimeService.handle(
@@ -109,6 +112,7 @@ describe("Anime Service", () => {
 			totalEpisodes: 12,
 			averageRating: "4.0",
 			ageRating: "PG-13",
+			featured: false,
 		};
 
 		const updateData = {

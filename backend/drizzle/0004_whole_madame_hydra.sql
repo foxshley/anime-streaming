@@ -1,0 +1,1 @@
+ALTER TABLE "anime"."anime" ADD COLUMN "featured" boolean DEFAULT false NOT NULL;

@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+	boolean,
 	date,
 	decimal,
 	integer,
@@ -36,6 +37,7 @@ export const anime = contentSchema.table(
 			.default("0.00")
 			.notNull(),
 		ageRating: varchar("age_rating", { length: 10 }),
+		featured: boolean("featured").default(false).notNull(),
 		createdAt: timestamp("created_at").defaultNow().notNull(),
 		updatedAt: timestamp("updated_at").defaultNow().notNull(),
 	},
