@@ -3,7 +3,7 @@ import { AnimeRepository } from "../../repositories/anime.repository";
 import type { PaginationMetaType } from "../../types/pagination";
 import type {
 	AnimeInsertType,
-	AnimeListItem,
+	AnimeListItemType,
 	AnimeType,
 	AnimeUpdateType,
 } from "./anime.schema";
@@ -12,7 +12,7 @@ async function getAnimeList(
 	page: number,
 	limit: number,
 	status?: string,
-): Promise<{ data: AnimeListItem[]; meta: PaginationMetaType }> {
+): Promise<{ data: AnimeListItemType[]; meta: PaginationMetaType }> {
 	const safePage = Math.max(page || 1, 1);
 	const safeLimit = Math.min(limit || 20, 100);
 	const offset = (safePage - 1) * safeLimit;

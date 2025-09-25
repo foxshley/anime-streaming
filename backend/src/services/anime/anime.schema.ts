@@ -95,4 +95,4 @@ export const AnimeModel = new Elysia().model({
 export type AnimeType = typeof AnimeSchema.static;
 export type AnimeInsertType = typeof AnimeInsertSchema.static;
 export type AnimeUpdateType = typeof AnimeUpdateSchema.static;
-export type AnimeListItem = typeof AnimeListItemSchema.static;
+export type AnimeListItemType = typeof AnimeListItemSchema.static;

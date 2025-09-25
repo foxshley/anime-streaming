@@ -4,7 +4,7 @@ import { db } from "../db";
 import { anime } from "../db/schema/content";
 import type {
 	AnimeInsertType,
-	AnimeListItem,
+	AnimeListItemType,
 	AnimeType,
 	AnimeUpdateType,
 } from "../services/anime/anime.schema";
@@ -31,7 +31,7 @@ async function findAll(
 	limit: number,
 	offset: number,
 	status?: string,
-): Promise<AnimeListItem[]> {
+): Promise<AnimeListItemType[]> {
 	try {
 		const conditions = [];
 		if (status) {
