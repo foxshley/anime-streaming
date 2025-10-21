@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { boolean, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
 
 export const authSchema = pgSchema("auth");
@@ -51,3 +52,30 @@ export const verification = authSchema.table("verification", {
 	createdAt: timestamp("created_at"),
 	updatedAt: timestamp("updated_at"),
 });
+
+export const usersRelations = relations(user, ({ many }) => ({
+	sessions: many(session),
+	accounts: many(account),
+	verifications: many(verification),
+}));
+
+export const sessionRelations = relations(session, ({ one }) => ({
+	user: one(user, {
+		fields: [session.userId],
+		references: [user.id],
+	}),
+}));
+
+export const accountRelations = relations(account, ({ one }) => ({
+	user: one(user, {
+		fields: [account.userId],
+		references: [user.id],
+	}),
+}));
+
+export const verificationRelations = relations(verification, ({ one }) => ({
+	user: one(user, {
+		fields: [verification.identifier],
+		references: [user.id],
+	}),
+}));

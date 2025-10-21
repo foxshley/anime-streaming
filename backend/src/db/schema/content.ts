@@ -101,3 +101,10 @@ export const episodesRelations = relations(episodes, ({ one, many }) => ({
 	watchHistory: many(userWatchHistory),
 	comments: many(comments),
 }));
+
+export const seasonsRelations = relations(seasons, ({ one }) => ({
+	anime: one(anime, {
+		fields: [seasons.animeId],
+		references: [anime.animeId],
+	}),
+}));

@@ -11,7 +11,6 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
-import { subscriptions } from "./billing";
 import { anime, episodes } from "./content";
 
 export const userDataSchema = pgSchema("user_data");
@@ -107,13 +106,6 @@ export const comments = userDataSchema.table(
 );
 
 // Relations
-export const usersRelations = relations(user, ({ many }) => ({
-	watchHistory: many(userWatchHistory),
-	watchlist: many(userWatchlist),
-	ratings: many(userRatings),
-	comments: many(comments),
-	subscriptions: many(subscriptions),
-}));
 
 export const commentsRelations = relations(comments, ({ one, many }) => ({
 	user: one(user, {
@@ -127,6 +119,43 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
 	parentComment: one(comments, {
 		fields: [comments.parentCommentId],
 		references: [comments.commentId],
+		relationName: "comment_replies",
 	}),
 	replies: many(comments, { relationName: "comment_replies" }),
+}));
+
+export const userWatchHistoryRelations = relations(
+	userWatchHistory,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userWatchHistory.userId],
+			references: [user.id],
+		}),
+		episode: one(episodes, {
+			fields: [userWatchHistory.episodeId],
+			references: [episodes.episodeId],
+		}),
+	}),
+);
+
+export const userWatchlistRelations = relations(userWatchlist, ({ one }) => ({
+	user: one(user, {
+		fields: [userWatchlist.userId],
+		references: [user.id],
+	}),
+	anime: one(anime, {
+		fields: [userWatchlist.animeId],
+		references: [anime.animeId],
+	}),
+}));
+
+export const userRatingsRelations = relations(userRatings, ({ one }) => ({
+	user: one(user, {
+		fields: [userRatings.userId],
+		references: [user.id],
+	}),
+	anime: one(anime, {
+		fields: [userRatings.animeId],
+		references: [anime.animeId],
+	}),
 }));
