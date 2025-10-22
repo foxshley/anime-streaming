@@ -5,6 +5,7 @@ coverage = true
 coverageSkipTestFiles = true
 coveragePathIgnorePatterns = [
   "src/db/**",
+  "scripts/**",
   "**/providers/**",
   "tests/helpers/**"
 ]
