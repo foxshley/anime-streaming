@@ -45,9 +45,6 @@ jobs:
       - name: Run migrations
         run: bun run migrate
 
-      - name: Seed the database
-        run: bun run seed
-
       - name: Run linting and formatting checks
         run: bun run check
 
