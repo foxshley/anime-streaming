@@ -22,7 +22,7 @@ async function ensureDbReady() {
 
 	// 🧠 Check if migration table exists
 	const checkMigration =
-		await $`podman exec anime-streaming-backend-test-db psql -U testuser -d anime_streaming_test -tAc "SELECT to_regclass('drizzle.__drizzle_migrations') AS EXISTS;"`;
+		await $`podman exec anime-streaming-backend-test-db psql -U testuser -d anime_streaming_test -tAc "SELECT to_regclass('drizzle.__drizzle_migrations') AS EXISTS;"`.quiet();
 
 	const hasMigration = checkMigration.stdout.toString().trim() !== "";
 
