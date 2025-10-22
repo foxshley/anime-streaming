@@ -3,6 +3,7 @@ import { $ } from "bun";
 let isReady = false;
 
 async function ensureDbReady() {
+	if (process.env.CI) return;
 	if (isReady) return;
 	isReady = true;
 
