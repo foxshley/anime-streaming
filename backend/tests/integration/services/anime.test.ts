@@ -1,5 +1,15 @@
-import { describe, expect, it } from "bun:test";
+import { afterAll, beforeAll, describe, expect, it } from "bun:test";
+import { $ } from "bun";
 import { app } from "../../../src/app";
+import { truncateTables } from "../../helpers/truncate";
+
+beforeAll(async () => {
+	await $`bun run seed anime`;
+});
+
+afterAll(async () => {
+	await truncateTables(["anime.anime"]);
+});
 
 describe("Anime Service", () => {
 	it("GET /anime/", async () => {
