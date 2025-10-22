@@ -1,4 +1,6 @@
 [test]
+preload = ["./scripts/ensure-db-ready.ts"]
+
 coverage = true
 coverageSkipTestFiles = true
 coveragePathIgnorePatterns = [
