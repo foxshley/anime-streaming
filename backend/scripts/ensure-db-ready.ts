@@ -4,6 +4,7 @@ let isReady = false;
 
 async function ensureDbReady() {
 	if (process.env.CI) return;
+	if (process.env.TEST_RUNNER) return;
 	if (isReady) return;
 	isReady = true;
 

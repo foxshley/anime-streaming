@@ -18,7 +18,7 @@
 		"test:teardown": "bun run scripts/test-teardown.ts",
 		"test:integration": "bun test tests/integration",
 		"test:unit": "bun test tests/unit",
-		"test": "NODE_ENV=test bun run scripts/test-runner.ts"
+		"test": "NODE_ENV=test TEST_RUNNER=true bun run scripts/test-runner.ts"
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.2.0",
