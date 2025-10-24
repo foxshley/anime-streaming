@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "react-router build",
 		"ci": "pnpm build && pnpm test --run && pnpm typecheck",
-		"dev": "react-router dev",
+		"dev": "react-router dev --host",
 		"start": "react-router-serve ./build/server/index.js",
 		"test": "vitest",
 		"typecheck": "react-router typegen && tsc"
