@@ -1,4 +1,5 @@
 import { AppShell, Box, Button, NavLink, Stack, Text } from "@mantine/core";
+import { Link } from "react-router";
 
 interface NavbarProps {
   opened: boolean;
@@ -18,8 +19,8 @@ export function Navbar({ opened, close, navItems }: NavbarProps) {
           <NavLink
             key={item.label}
             label={item.label}
-            component="a"
-            href={item.href}
+            component={Link}
+            to={item.href}
             onClick={close}
             style={{
               borderRadius: '8px',

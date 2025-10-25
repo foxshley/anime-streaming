@@ -1,5 +1,6 @@
 import { AppShell, Box, Burger, Button, Flex, Group, Text } from '@mantine/core'
 import { Search, Bell, ChevronDown } from 'lucide-react'
+import { Link } from 'react-router';
 
 interface HeaderProps {
   opened: boolean;
@@ -38,9 +39,9 @@ export function Header({ opened, toggle, navItems }: HeaderProps) {
             {navItems.map((item) => (
               <Button
                 key={item.label}
-                component="a"
+                component={Link}
                 variant="subtle"
-                href={item.href}
+                to={item.href}
               >
                 {item.label}
               </Button>
