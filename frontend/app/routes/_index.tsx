@@ -2,6 +2,7 @@ import type { Route } from "./+types/_index";
 import { AppShell } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Header } from "~/components/Header";
+import { Hero } from "~/components/Hero";
 import { Navbar } from "~/components/Navbar";
 
 export function meta({ }: Route.MetaArgs) {
@@ -31,6 +32,7 @@ export default function Home() {
 		}}>
 			<Header opened={opened} toggle={toggle} navItems={navItems} />
 			<Navbar opened={opened} close={close} navItems={navItems} />
+			<Hero />
 		</AppShell>
 	);
 }
