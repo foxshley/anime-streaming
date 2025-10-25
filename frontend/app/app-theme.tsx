@@ -7,7 +7,7 @@ import {
 
 export const appTheme = createTheme({
 	colors: {
-		brand: DEFAULT_THEME.colors.blue,
+		brand: DEFAULT_THEME.colors.dark,
 	},
 	primaryColor: "brand",
 });
