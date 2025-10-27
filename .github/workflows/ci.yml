@@ -1,4 +1,4 @@
-name: Build and Test Backend
+name: Build and Test
 
 on:
   push:
@@ -72,7 +72,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
           run_install: false
 
       - name: Setup Node
@@ -80,6 +80,7 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install
