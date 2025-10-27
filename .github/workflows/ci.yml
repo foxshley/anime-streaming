@@ -40,6 +40,11 @@ jobs:
         with:
           bun-version: "1.2.21"
 
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
       - name: Install deps
         run: bun install
 
@@ -50,7 +55,7 @@ jobs:
         run: bun run migrate
 
       - name: Run linting and formatting checks
-        run: bun run check
+        run: biome ci
 
       - name: Run all tests
         run: bun run test
@@ -82,11 +87,16 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
 
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Lint & Format Check
-        run: pnpm check
+        run: biome ci
 
       - name: Run Tests
         run: pnpm test --if-present
