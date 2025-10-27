@@ -7,7 +7,11 @@ on:
     branches: [main, dev]
 
 jobs:
-  build-and-test:
+  # -----------------------
+  # Backend CI
+  # -----------------------
+  backend:
+    name: Build & Test Backend
     runs-on: ubuntu-latest
     environment: testing
     env:
@@ -50,3 +54,41 @@ jobs:
 
       - name: Run all tests
         run: bun run test
+
+  # -----------------------
+  # Frontend CI
+  # -----------------------
+  frontend:
+    name: Build & Test Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint & Format Check
+        run: pnpm check
+
+      - name: Run Tests
+        run: pnpm test --if-present
+
+      - name: Build Frontend
+        run: pnpm build
