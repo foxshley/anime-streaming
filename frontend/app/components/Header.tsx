@@ -18,7 +18,7 @@ interface HeaderProps {
 
 export function Header({ opened, toggle, navItems }: HeaderProps) {
 	return (
-		<AppShell.Header>
+		<AppShell.Header bg="linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent)">
 			<Group h="100%" px="xl" justify="flex-start">
 				{/* Logo */}
 				<Group>
