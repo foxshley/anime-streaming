@@ -1,9 +1,6 @@
-import { AppShell, Box } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Box } from "@mantine/core";
 import { AnimeCarousel } from "~/components/AnimeCarousel";
-import { Header } from "~/components/Header";
 import { Hero } from "~/components/Hero";
-import { Navbar } from "~/components/Navbar";
 import type { Route } from "./+types/_index";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,14 +11,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-	const navItems = [
-		{ label: "Home", href: "/" },
-		{ label: "TV Shows", href: "/tvshows" },
-		{ label: "Movies", href: "/movies" },
-		{ label: "New & Popular", href: "/new-and-popular" },
-		{ label: "My List", href: "/my-list" },
-	];
-
 	const trendingAnime = [
 		{
 			id: "1",
@@ -151,36 +140,15 @@ export default function Home() {
 		},
 	];
 
-	const [opened, { toggle, close }] = useDisclosure(false);
-
 	return (
-		<AppShell
-			header={{ height: 70 }}
-			navbar={{
-				width: 280,
-				breakpoint: "md",
-				collapsed: { mobile: !opened, desktop: true },
-			}}
-			padding="md"
-			styles={{
-				header: {
-					border: "none",
-					borderBottom: "none",
-				},
-			}}
-		>
-			<Header opened={opened} toggle={toggle} navItems={navItems} />
-			<Navbar opened={opened} close={close} navItems={navItems} />
+		<Box>
+			<Hero />
 
-			<AppShell.Main p={0}>
-				<Hero />
-
-				<Box my="xl" pb="xl">
-					<AnimeCarousel title="Trending Now" items={trendingAnime} />
-					<AnimeCarousel title="Popular Anime" items={popularAnime} />
-					<AnimeCarousel title="New Releases" items={newReleases} />
-				</Box>
-			</AppShell.Main>
-		</AppShell>
+			<Box my="xl" pb="xl">
+				<AnimeCarousel title="Trending Now" items={trendingAnime} />
+				<AnimeCarousel title="Popular Anime" items={popularAnime} />
+				<AnimeCarousel title="New Releases" items={newReleases} />
+			</Box>
+		</Box>
 	);
 }

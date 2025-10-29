@@ -7,6 +7,7 @@ import {
 	Text,
 	Title,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import type React from "react";
 import {
 	isRouteErrorResponse,
@@ -18,9 +19,22 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
+import { AppShell } from "@mantine/core";
 import { AppTheme } from "~/app-theme";
+import { Header } from "~/components/Header";
+import { Navbar } from "~/components/Navbar";
 
 export function Layout({ children }: { children: React.ReactNode }) {
+	const navItems = [
+		{ label: "Home", href: "/" },
+		{ label: "TV Shows", href: "/tvshows" },
+		{ label: "Movies", href: "/movies" },
+		{ label: "New & Popular", href: "/new-and-popular" },
+		{ label: "My List", href: "/my-list" },
+	];
+
+	const [opened, { toggle, close }] = useDisclosure(false);
+
 	return (
 		<html lang="en" {...mantineHtmlProps}>
 			<head>
@@ -34,7 +48,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Links />
 			</head>
 			<body>
-				<AppTheme>{children}</AppTheme>
+				<AppTheme>
+					<AppShell
+						header={{ height: 70 }}
+						navbar={{
+							width: 280,
+							breakpoint: "md",
+							collapsed: { mobile: !opened, desktop: true },
+						}}
+						padding="md"
+						styles={{
+							header: {
+								border: "none",
+								borderBottom: "none",
+							},
+						}}
+					>
+						<Header opened={opened} toggle={toggle} navItems={navItems} />
+						<Navbar opened={opened} close={close} navItems={navItems} />
+
+						<AppShell.Main p={0}>{children}</AppShell.Main>
+					</AppShell>
+				</AppTheme>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
