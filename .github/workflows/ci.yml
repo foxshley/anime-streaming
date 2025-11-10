@@ -99,7 +99,7 @@ jobs:
         run: biome ci
 
       - name: Run Tests
-        run: pnpm test --if-present
+        run: pnpm test
 
       - name: Build Frontend
         run: pnpm build
