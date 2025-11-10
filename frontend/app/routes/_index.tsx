@@ -11,6 +11,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+	const heroAnime = {
+		title: "Cyber Chronicles",
+		description:
+			"In a dystopian future where technology and humanity collide, a group of hackers fights against a corrupt megacorporation. Armed with cutting-edge cybernetic enhancements and unbreakable determination, they must uncover the truth before it's too late.",
+		year: 2024,
+		rating: "9.2",
+		episodes: 24,
+		genres: ["Action", "Sci-Fi", "Thriller", "Drama"],
+		backgroundImage:
+			"https://images.unsplash.com/photo-1610114586897-20495783e96c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmltZSUyMGxhbmRzY2FwZSUyMGNpbmVtYXRpY3xlbnwxfHx8fDE3NjE1NDkyMjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+	};
+
 	const trendingAnime = [
 		{
 			id: "1",
@@ -142,7 +154,7 @@ export default function Home() {
 
 	return (
 		<Box>
-			<Hero />
+			<Hero {...heroAnime} />
 
 			<Box my="xl" pb="xl">
 				<AnimeCarousel title="Trending Now" items={trendingAnime} />

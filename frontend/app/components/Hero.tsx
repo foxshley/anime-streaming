@@ -11,7 +11,25 @@ import {
 } from "@mantine/core";
 import { Info, Play } from "lucide-react";
 
-export function Hero() {
+interface HeroProps {
+	title: string;
+	description: string;
+	year: number;
+	rating: string;
+	episodes: number;
+	genres: string[];
+	backgroundImage: string;
+}
+
+export function Hero({
+	title,
+	description,
+	year,
+	rating,
+	episodes,
+	genres,
+	backgroundImage,
+}: HeroProps) {
 	return (
 		<Box
 			style={{
@@ -107,7 +125,7 @@ export function Hero() {
 							lineHeight: 1.2,
 						}}
 					>
-						Demon Slayer
+						{title}
 					</Title>
 					<Group gap="sm" mb="xl">
 						<Badge
@@ -128,7 +146,7 @@ export function Hero() {
 								color: "#d1d5db",
 							}}
 						>
-							2023
+							{year}
 						</Badge>
 						<Badge
 							variant="outline"
@@ -138,7 +156,7 @@ export function Hero() {
 								color: "#d1d5db",
 							}}
 						>
-							Action • Anime • Adventure
+							{genres.join("• ")}
 						</Badge>
 					</Group>
 					<Text
@@ -150,9 +168,7 @@ export function Hero() {
 							lineHeight: 1.7,
 						}}
 					>
-						Tanjiro Kamado, joined with Inosuke Hashibira, a boy raised by boars
-						who wears a boar's head, and Zenitsu Agatsuma, a scared boy who
-						reveals his true power when he sleeps, boards the Infinity Train.
+						{description}
 					</Text>
 					<Group gap="md">
 						<Tooltip label="Start watching now" position="bottom">
