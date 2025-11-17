@@ -17,6 +17,9 @@ interface VideoPlayerProps {
   posterUrl: string;
 }
 
+const SKIP_DURATION_SECONDS = 10;
+const VOLUME_CHANGE_STEP = 0.1;
+
 export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,7 +52,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
     video.addEventListener("canplay", handleCanPlay);
     video.addEventListener("playing", handlePlaying);
 
-    // Check if duration is already available
+    // Check if duration is already available to prevent racing condition
     if (video.duration) {
       setDuration(video.duration);
     }
@@ -179,6 +182,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
         </Box>
       )}
 
+      {/* Video controls */}
       <Box
         pos="absolute"
         bottom={0}
@@ -206,6 +210,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
           />
         </Box>
 
+        {/* Action buttons */}
         <Group justify="space-between">
           <Group gap="xs">
             <ActionIcon
@@ -221,7 +226,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
               variant="transparent"
               color="white"
               size="lg"
-              onClick={() => skip(-10)}
+              onClick={() => skip(-SKIP_DURATION_SECONDS)}
             >
               <SkipBack size={20} />
             </ActionIcon>
@@ -230,7 +235,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
               variant="transparent"
               color="white"
               size="lg"
-              onClick={() => skip(10)}
+              onClick={() => skip(SKIP_DURATION_SECONDS)}
             >
               <SkipForward size={20} />
             </ActionIcon>
@@ -249,7 +254,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
                   value={isMuted ? 0 : volume}
                   onChange={handleVolumeChange}
                   max={1}
-                  step={0.1}
+                  step={VOLUME_CHANGE_STEP}
                   size="sm"
                   color="white"
                   styles={{
@@ -267,6 +272,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
           <Group gap="xs">
             <ActionIcon variant="transparent" color="white" size="lg">
               <Settings size={20} />
+              {/* TODO: Add playback speed, quality selector */}
             </ActionIcon>
 
             <ActionIcon
