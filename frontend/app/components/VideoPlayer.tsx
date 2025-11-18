@@ -6,6 +6,7 @@ import {
   Volume2,
   VolumeX,
   Maximize,
+  RotateCcw,
   SkipForward,
   SkipBack,
   Settings,
@@ -24,6 +25,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -43,6 +45,11 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
     const handleWaiting = () => setIsBuffering(true);
     const handleCanPlay = () => setIsBuffering(false);
     const handlePlaying = () => setIsBuffering(false);
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setHasEnded(true);
+      setShowControls(true); // Keep controls visible
+    };
 
     const handleError = (e: Event) => {
       console.error("Video error: ", e);
@@ -55,6 +62,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
     video.addEventListener("waiting", handleWaiting);
     video.addEventListener("canplay", handleCanPlay);
     video.addEventListener("playing", handlePlaying);
+    video.addEventListener("ended", handleEnded);
 
     // Check if duration is already available to prevent racing condition
     if (video.duration) {
@@ -69,6 +77,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
       video.removeEventListener("waiting", handleWaiting);
       video.removeEventListener("canplay", handleCanPlay);
       video.removeEventListener("playing", handlePlaying);
+      video.removeEventListener("ended", handleEnded);
     };
   }, []);
 
@@ -94,13 +103,17 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
   }, [showSettingsMenu]);
 
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
+    if (!videoRef.current) return;
+
+    if (hasEnded) {
+      // If video ended, replay from start
+      handleReplay();
+    } else if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
     }
   };
 
@@ -108,6 +121,15 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
     if (videoRef.current) {
       videoRef.current.currentTime = value;
       setCurrentTime(value);
+    }
+  };
+
+  const handleReplay = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setIsPlaying(true);
+      setHasEnded(false);
     }
   };
 
@@ -211,6 +233,36 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
               }
             `}
           </style>
+        </Box>
+      )}
+
+      {/* Replay Button Overlay */}
+      {hasEnded && (
+        <Box
+          pos="absolute"
+          top="50%"
+          left="50%"
+          style={{
+            transform: "translate(-50%, -50%)",
+            cursor: "pointer",
+          }}
+          onClick={handleReplay}
+        >
+          <Box
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "background-color 200ms",
+            }}
+            className="hover:bg-black/90"
+          >
+            <RotateCcw size={40} color="white" />
+          </Box>
         </Box>
       )}
 
