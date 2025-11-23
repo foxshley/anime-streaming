@@ -1,64 +1,64 @@
 import { Box, Stack, Text } from "@mantine/core";
 
 interface WatchAnimeInfoProps {
-  animeId: string;
+	animeId: string;
 }
 
 export default function WatchAnimeInfo({ animeId }: WatchAnimeInfoProps) {
-  const animeInfo = {
-    studio: "ufotable",
-    director: "Haruo Sotozaki",
-    genres: ["Action", "Fantasy", "Supernatural"],
-    releaseYear: 2019,
-  };
+	const animeInfo = {
+		studio: "ufotable",
+		director: "Haruo Sotozaki",
+		genres: ["Action", "Fantasy", "Supernatural"],
+		releaseYear: 2019,
+	};
 
-  return (
-    <Box
-      bg="#09090b"
-      p="xl"
-      mt="md"
-      style={{
-        border: "1px solid #18181b",
-        borderRadius: 8,
-      }}
-    >
-      <Text size="lg" c="white" mb="md">
-        About
-      </Text>
-      <Stack gap="sm">
-        <Box>
-          <Text size="sm" c="dimmed" mb={4}>
-            Studio
-          </Text>
-          <Text size="sm" c="white">
-            {animeInfo.studio}
-          </Text>
-        </Box>
-        <Box>
-          <Text size="sm" c="dimmed" mb={4}>
-            Director
-          </Text>
-          <Text size="sm" c="white">
-            {animeInfo.director}
-          </Text>
-        </Box>
-        <Box>
-          <Text size="sm" c="dimmed" mb={4}>
-            Genre
-          </Text>
-          <Text size="sm" c="white">
-            {animeInfo.genres.join(", ")}
-          </Text>
-        </Box>
-        <Box>
-          <Text size="sm" c="dimmed" mb={4}>
-            Release Year
-          </Text>
-          <Text size="sm" c="white">
-            {animeInfo.releaseYear}
-          </Text>
-        </Box>
-      </Stack>
-    </Box>
-  );
+	return (
+		<Box
+			bg="#09090b"
+			p="xl"
+			mt="md"
+			style={{
+				border: "1px solid #18181b",
+				borderRadius: 8,
+			}}
+		>
+			<Text size="lg" c="white" mb="md">
+				About
+			</Text>
+			<Stack gap="sm">
+				<Box>
+					<Text size="sm" c="dimmed" mb={4}>
+						Studio
+					</Text>
+					<Text size="sm" c="white">
+						{animeInfo.studio}
+					</Text>
+				</Box>
+				<Box>
+					<Text size="sm" c="dimmed" mb={4}>
+						Director
+					</Text>
+					<Text size="sm" c="white">
+						{animeInfo.director}
+					</Text>
+				</Box>
+				<Box>
+					<Text size="sm" c="dimmed" mb={4}>
+						Genre
+					</Text>
+					<Text size="sm" c="white">
+						{animeInfo.genres.join(", ")}
+					</Text>
+				</Box>
+				<Box>
+					<Text size="sm" c="dimmed" mb={4}>
+						Release Year
+					</Text>
+					<Text size="sm" c="white">
+						{animeInfo.releaseYear}
+					</Text>
+				</Box>
+			</Stack>
+		</Box>
+	);
 }

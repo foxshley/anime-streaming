@@ -2,7 +2,6 @@ import {
 	Badge,
 	Box,
 	Button,
-	Container,
 	Group,
 	Image,
 	Text,

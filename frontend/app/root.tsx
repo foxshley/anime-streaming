@@ -1,80 +1,76 @@
 import {
-  AppShell,
-  Box,
-  Code,
-  ColorSchemeScript,
-  Container,
-  mantineHtmlProps,
-  Text,
-  Title,
+	Box,
+	Code,
+	ColorSchemeScript,
+	Container,
+	mantineHtmlProps,
+	Text,
+	Title,
 } from "@mantine/core";
 import type React from "react";
 import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
+	isRouteErrorResponse,
+	Links,
+	Meta,
+	Outlet,
+	Scripts,
+	ScrollRestoration,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { AppTheme } from "~/app-theme";
-import { Header } from "./components/Header";
-import { Navbar } from "./components/Navbar";
-import { useDisclosure } from "@mantine/hooks";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-        <ColorSchemeScript defaultColorScheme="dark" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <AppTheme>{children}</AppTheme>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" {...mantineHtmlProps}>
+			<head>
+				<meta charSet="utf-8" />
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1, maximum-scale=1"
+				/>
+				<ColorSchemeScript defaultColorScheme="dark" />
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				<AppTheme>{children}</AppTheme>
+				<ScrollRestoration />
+				<Scripts />
+			</body>
+		</html>
+	);
 }
 
 export default function App() {
-  return <Outlet />;
+	return <Outlet />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+	let message = "Oops!";
+	let details = "An unexpected error occurred.";
+	let stack: string | undefined;
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
+	if (isRouteErrorResponse(error)) {
+		message = error.status === 404 ? "404" : "Error";
+		details =
+			error.status === 404
+				? "The requested page could not be found."
+				: error.statusText || details;
+	} else if (import.meta.env.DEV && error && error instanceof Error) {
+		details = error.message;
+		stack = error.stack;
+	}
 
-  return (
-    <Container component="main" pt="xl" p="md" mx="auto">
-      <Title>{message}</Title>
-      <Text>{details}</Text>
-      {stack && (
-        <Box component="pre" w="100%" style={{ overflowX: "auto" }} p="md">
-          <Code>{stack}</Code>
-        </Box>
-      )}
-    </Container>
-  );
+	return (
+		<Container component="main" pt="xl" p="md" mx="auto">
+			<Title>{message}</Title>
+			<Text>{details}</Text>
+			{stack && (
+				<Box component="pre" w="100%" style={{ overflowX: "auto" }} p="md">
+					<Code>{stack}</Code>
+				</Box>
+			)}
+		</Container>
+	);
 }

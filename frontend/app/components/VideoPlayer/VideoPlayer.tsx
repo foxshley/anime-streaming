@@ -11,7 +11,7 @@ import {
 	Volume2,
 	VolumeX,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useVideoPlayer } from "./useVideoPlayer";
 import { VideoPlayerSettings } from "./VideoPlayerSettings";
 
@@ -31,9 +31,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
 			h="100vh"
 			bg="black"
 			onMouseEnter={() => player.setShowControls(true)}
-			onMouseLeave={() =>
-				player.setShowControls(player.isPlaying ? false : true)
-			}
+			onMouseLeave={() => player.setShowControls(!player.isPlaying)}
 		>
 			<video
 				ref={videoRef}
@@ -202,7 +200,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
 							variant="transparent"
 							color="white"
 							size="lg"
-							onClick={(e) => {
+							onClick={() => {
 								player.setShowSettingsMenu(!player.showSettingsMenu);
 								player.setSettingsView("main"); // Reset to main menu when opening
 							}}
