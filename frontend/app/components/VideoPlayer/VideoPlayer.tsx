@@ -44,6 +44,7 @@ export function VideoPlayer({ videoUrl, posterUrl }: VideoPlayerProps) {
 				poster={posterUrl}
 				onClick={player.togglePlay}
 			>
+				<track kind="captions" srcLang="en" src="" default />
 				<source src={videoUrl} type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
