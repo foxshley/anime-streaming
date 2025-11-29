@@ -1,9 +1,9 @@
 import { Box, Container, Grid } from "@mantine/core";
-import { VideoPlayer } from "~/components/VideoPlayer/VideoPlayer";
-import WatchAnimeInfo from "~/components/WatchAnimeInfo";
-import WatchEpisodeInfo from "~/components/WatchEpisodeInfo";
-import WatchEpisodeList from "~/components/WatchEpisodeList";
-import { WatchHeader } from "~/components/WatchHeader";
+import { VideoPlayer } from "./components/VideoPlayer/VideoPlayer";
+import AnimeInfo from "./components/AnimeInfo";
+import EpisodeInfo from "./components/EpisodeInfo";
+import EpisodeList from "./components/EpisodeList";
+import { Header } from "./components/Header";
 import type { Route } from "./+types/watch";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -42,7 +42,7 @@ export default function WatchAnime({ loaderData }: Route.ComponentProps) {
   return (
     <Box>
       {/* Header */}
-      <WatchHeader title={watchMetadata.title} season={watchMetadata.season} />
+      <Header title={watchMetadata.title} season={watchMetadata.season} />
 
       {/* Video Player */}
       <VideoPlayer
@@ -54,7 +54,7 @@ export default function WatchAnime({ loaderData }: Route.ComponentProps) {
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 8 }}>
             {/* Episode Info */}
-            <WatchEpisodeInfo
+            <EpisodeInfo
               rating={watchMetadata.rating}
               year={watchMetadata.year}
               description={watchMetadata.description}
@@ -64,12 +64,12 @@ export default function WatchAnime({ loaderData }: Route.ComponentProps) {
             />
 
             {/* Episodes List */}
-            <WatchEpisodeList currentEpisode={watchMetadata.currentEpisode} />
+            <EpisodeList currentEpisode={watchMetadata.currentEpisode} />
           </Grid.Col>
 
           {/* Sidebar */}
           <Grid.Col span={{ base: 12, md: 4 }}>
-            <WatchAnimeInfo animeId={"2347"} />
+            <AnimeInfo animeId={"2347"} />
           </Grid.Col>
         </Grid>
       </Container>

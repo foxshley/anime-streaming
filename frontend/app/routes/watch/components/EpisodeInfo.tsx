@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Group, Text } from "@mantine/core";
 import { ThumbsUp } from "lucide-react";
 
-interface WatchEpisodeInfoProps {
+interface EpisodeInfoProps {
   rating: string;
   year: string;
   description: string;
@@ -10,14 +10,14 @@ interface WatchEpisodeInfoProps {
   episodeTitle: string;
 }
 
-export default function WatchEpisodeInfo({
+export default function EpisodeInfo({
   rating,
   year,
   description,
   currentEpisode,
   totalEpisodes,
   episodeTitle,
-}: WatchEpisodeInfoProps) {
+}: EpisodeInfoProps) {
   return (
     <Box mb="xl">
       <Group mb="sm">

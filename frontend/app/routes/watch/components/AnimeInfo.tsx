@@ -1,10 +1,10 @@
 import { Box, Stack, Text } from "@mantine/core";
 
-interface WatchAnimeInfoProps {
+interface AnimeInfoProps {
   animeId: string;
 }
 
-export default function WatchAnimeInfo({ animeId }: WatchAnimeInfoProps) {
+export default function AnimeInfo({ animeId }: AnimeInfoProps) {
   const animeInfo = {
     studio: "ufotable",
     director: "Haruo Sotozaki",
