@@ -13,22 +13,10 @@ import { Info, Play } from "lucide-react";
 interface HeroProps {
   title: string;
   description: string;
-  year: number;
-  rating: string;
-  episodes: number;
-  genres: string[];
   backgroundImage: string;
 }
 
-export function Hero({
-  title,
-  description,
-  year,
-  rating,
-  episodes,
-  genres,
-  backgroundImage,
-}: HeroProps) {
+export function Hero({ title, description, backgroundImage }: HeroProps) {
   return (
     <Box
       style={{
@@ -49,7 +37,7 @@ export function Hero({
         }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1695747003335-ac77eeea43c2"
+          src={backgroundImage}
           alt="Featured Anime"
           style={{
             width: "100%",
