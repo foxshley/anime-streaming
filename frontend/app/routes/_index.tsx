@@ -152,7 +152,7 @@ export default function Home() {
     <Box>
       <Hero {...heroAnime} />
 
-      <Box my="xl" pb="xl">
+      <Box mb="xl" pb="xl">
         <AnimeCarousel title="Trending Now" items={trendingAnime} />
         <AnimeCarousel title="Popular Anime" items={popularAnime} />
         <AnimeCarousel title="New Releases" items={newReleases} />
